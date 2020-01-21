@@ -1,6 +1,5 @@
 package com.app.demo.pojos;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,10 +12,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="Address")
+@JsonInclude(Include.NON_NULL)
 public class Address 
 {
 	private Integer id;
@@ -27,8 +29,8 @@ public class Address
 	@JsonIgnore
 	@JsonManagedReference(value="cid")
 	private Customer cid;
-	@JsonIgnore
-	 @JsonManagedReference(value="pid")
+	
+	//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Provider pid ;
 	public Address() {
 	}
@@ -89,8 +91,10 @@ public class Address
 	}
 	
 
-	@OneToOne
+	@OneToOne()
 	@JoinColumn(name="p_id")
+	@JsonIgnore
+	 @JsonManagedReference(value="pid")
 	public Provider getPid() {
 		return pid;
 	}

@@ -10,9 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 @Table(name="SubServices")
+@JsonInclude(Include.NON_NULL)
 public class SubServices {
 private Integer id;
 private String subservicename;

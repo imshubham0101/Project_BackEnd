@@ -8,5 +8,5 @@ import com.app.demo.pojos.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer,Integer>{
 
-	Customer findByMobile(String mobile);
+	Customer findByMobileAndPassword(String mobile,String password);
 }

@@ -1,9 +1,13 @@
 package com.app.demo.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.demo.pojos.Address;
+import com.app.demo.pojos.Customer;
 import com.app.demo.pojos.Provider;
 import com.app.demo.pojos.Services;
 import com.app.demo.repository.ProviderRepository;
@@ -23,6 +27,11 @@ public class ProviderService {
 	private ProviderRepository providerRepo;
 	
 	
+	public Provider login(String mobile, String password) {
+		return providerRepo.findByMobileAndPassword(mobile,password);
+	}
+	
+	
 	public void addProvider(Provider provider) {
 		Address address = provider.getAddress();
 		address.setPid(provider);
@@ -36,5 +45,14 @@ public class ProviderService {
 		
 		
 	}
+
+
+	public List<Provider> getAllProviders() {
+		List<Provider> providers = new ArrayList<>();
+		providerRepo.findAll().forEach(providers::add);
+		return providers;
+	}
+
+
 	
 }

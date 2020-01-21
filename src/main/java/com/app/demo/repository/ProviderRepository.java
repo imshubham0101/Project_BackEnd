@@ -8,4 +8,6 @@ import com.app.demo.pojos.Provider;
 @Repository
 public interface ProviderRepository extends JpaRepository<Provider, Integer> {
 
+	Provider findByMobileAndPassword(String mobile, String password);
+
 }

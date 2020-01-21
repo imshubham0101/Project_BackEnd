@@ -13,12 +13,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 @Table(name = "Services")
+@JsonInclude(Include.NON_NULL)
 public class Services {
 	private Integer id;
 	private String sname;
@@ -58,7 +62,9 @@ public class Services {
 		this.sname = sname;
 	}
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "services")
+	@JsonManagedReference(value = "subservices")
 	public List<SubServices> getSubservices() {
 		return subservices;
 	}
@@ -67,7 +73,10 @@ public class Services {
 		this.subservices = subservices;
 	}
 
+
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pservice")
+	@JsonManagedReference(value = "providers")
 	public List<Provider> getProviders() {
 		return providers;
 	}

@@ -29,10 +29,10 @@ public class CustomerController {
 	@Autowired
 	private AddressService addrService ;
 
-	@RequestMapping("login/{mobile}")
-	public ResponseEntity<?> login(@PathVariable String mobile)
+	@RequestMapping("login/{mobile}/{password}")
+	public ResponseEntity<?> login(@PathVariable String mobile,@PathVariable String password)
 	{
-		             Customer login = service.login(mobile);
+		             Customer login = service.login(mobile,password);
 		if (login == null)
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<Customer>(login, HttpStatus.OK);

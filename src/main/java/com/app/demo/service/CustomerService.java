@@ -19,9 +19,9 @@ public class CustomerService {
 	@Autowired
 	private CustomerRepository custRepo;
 	
-	public Customer login(String mobile) {
+	public Customer login(String mobile,String password) {
 		
-		return custRepo.findByMobile(mobile);
+		return custRepo.findByMobileAndPassword(mobile,password);
 	}
 	
 
