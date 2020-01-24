@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
 
 @Embeddable
 public class CustomerProviderKey implements Serializable {
@@ -13,9 +14,11 @@ public class CustomerProviderKey implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
 	@Column(name="cust_id")
 	Integer customerId;
-	
+	 
+	 
 	@Column(name="provider_id")
 	Integer providerId;
 

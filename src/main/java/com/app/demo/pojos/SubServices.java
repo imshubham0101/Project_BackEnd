@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -19,7 +20,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class SubServices {
 private Integer id;
 private String subservicename;
-private float price;
+private double price;
+private byte [] images;
 @JsonBackReference
 private Services services ;
 
@@ -27,7 +29,7 @@ public SubServices() {
 	super();
 	// TODO Auto-generated constructor stub
 }
-public SubServices(String subservicename, float price) {
+public SubServices(String subservicename, double price) {
 	super();
 	this.subservicename = subservicename;
 	this.price = price;
@@ -50,13 +52,21 @@ public String getSubservicename() {
 public void setSubservicename(String subservicename) {
 	this.subservicename = subservicename;
 }
-public float getPrice() {
+public double getPrice() {
 	return price;
 }
-public void setPrice(float price) {
+public void setPrice(double price) {
 	this.price = price;
 }
 
+
+@Lob
+public byte[] getImages() {
+	return images;
+}
+public void setImages(byte[] images) {
+	this.images = images;
+}
 @ManyToOne
 @JoinColumn(name="s_id")
 public Services getServices() {

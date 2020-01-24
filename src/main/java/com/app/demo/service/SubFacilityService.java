@@ -37,6 +37,12 @@ public class SubFacilityService {
 		return  serviceRepo.findBySname(serviceName).getSubservices();
 		
 	}
+
+	public double setPrice(String subServiceName, double price) {
+		SubServices subService = subServiceRepo.findBySubservicename(subServiceName);
+		subService.setPrice(price);
+		return price;
+	}
 	
 	
 	

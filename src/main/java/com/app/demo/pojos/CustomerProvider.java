@@ -2,11 +2,17 @@ package com.app.demo.pojos;
 
 
 
+import java.time.LocalDate;
+
+import javax.persistence.Basic;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class CustomerProvider {
@@ -14,17 +20,39 @@ public class CustomerProvider {
 	@EmbeddedId
 	CustomerProviderKey id ;
 	
-	@ManyToOne
+	@ManyToOne//(fetch = FetchType.EAGER)
 	@MapsId("cust_id")
 	@JoinColumn(name="cust_id")
 	Customer customer;
 	
-	@ManyToOne
+	@ManyToOne//(fetch = FetchType.EAGER)
 	@MapsId("provider_id")
 	@JoinColumn(name="provider_id")
 	Provider provider;
-		
-	int rating;
+	
+	@Basic
+	@JoinColumn(name="date")
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate date ;
+	
+	public CustomerProvider() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public CustomerProvider(CustomerProviderKey id, Customer customer, Provider provider, LocalDate date) {
+		super();
+		this.id = id;
+		this.customer = customer;
+		this.provider = provider;
+		this.date = date;
+	}
+
+	
+	public CustomerProvider(CustomerProviderKey id, LocalDate date) {
+		super();
+		this.id = id;
+		this.date = date;
+	}
 
 	public CustomerProviderKey getId() {
 		return id;
@@ -50,19 +78,23 @@ public class CustomerProvider {
 		this.provider = provider;
 	}
 
-	public int getRating() {
-		return rating;
+	public LocalDate getDate() {
+		return date;
 	}
 
-	public void setRating(int rating) {
-		this.rating = rating;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 	@Override
 	public String toString() {
-		return "CustomerProvider [id=" + id + ", customer=" + customer + ", provider=" + provider + ", rating=" + rating
+		return "CustomerProvider [id=" + id + ", customer=" + customer + ", provider=" + provider + ", date=" + date
 				+ "]";
 	}
+
+	
+
+	
 
 	
 	

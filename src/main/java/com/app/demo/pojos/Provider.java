@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -31,7 +32,9 @@ public class Provider {
 	private String fname;
 	private String lname;
 	private String mobile;
+	private String email;
 	private String password;
+	private byte [] images;
 	@JsonInclude(Include.NON_NULL)
 	private Address address;
 	@JsonIgnore	
@@ -44,17 +47,34 @@ public class Provider {
 	
 	public Provider() {
 	}
+	
+	
 
-	public Provider(String fname, String lname, String mobile, String password,Address address,Services pservice) {
+	public Provider(Integer id) {
+		super();
+		this.id = id;
+	}
+
+
+	public Provider(String fname, String lname, String mobile, String email,String password,Address address) {
 		super();
 		this.fname = fname;
 		this.lname = lname;
 		this.mobile = mobile;
+		this.email=email;
+		this.password = password;
+		this.address = address;
+	}
+
+	public Provider(String fname, String lname, String mobile,String email,String password,Address address,Services pservice) {
+		super();
+		this.fname = fname;
+		this.lname = lname;
+		this.mobile = mobile;
+		this.email = email ;
 		this.password = password;
 		this.address = address;
 		this.pservice = pservice;
-		
-
 	}
 
 	@Id
@@ -92,6 +112,20 @@ public class Provider {
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
+	
+	
+
+	public String getEmail() {
+		return email;
+	}
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
 
 	public String getPassword() {
 		return password;
@@ -100,6 +134,20 @@ public class Provider {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
+	@Lob
+	public byte[] getImages() {
+		return images;
+	}
+
+
+
+	public void setImages(byte[] images) {
+		this.images = images;
+	}
+
+
 
 	@JsonIgnore
 	@OneToOne(mappedBy="pid",cascade = CascadeType.ALL)
@@ -124,8 +172,8 @@ public class Provider {
 	}
 
 	
-	
-	@OneToMany(mappedBy = "provider")
+	@JsonIgnore
+	@OneToMany(mappedBy = "provider",cascade = CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
 	public Set<CustomerProvider> getCustProvider() {
 		return custProvider;
 	}

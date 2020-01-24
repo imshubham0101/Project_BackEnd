@@ -16,8 +16,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -30,11 +32,12 @@ public class Customer
 	private String fname;
 	private String lname;
 	private String mobile;
+	private String email ;
 	private String password;
 	@JsonBackReference
 	private Address address;
 	
-	
+	@Transient
 	private Set <CustomerProvider> custProvider = new HashSet<>();;
 	
 	
@@ -43,10 +46,20 @@ public class Customer
 	public Customer() {
 	}
 	
-	public Customer( String fname, String lname, String mobile, String password,Address address) {
+	
+	
+	public Customer(Integer id) {
+		super();
+		this.id = id;
+	}
+
+
+
+	public Customer( String fname, String lname, String mobile,String email , String password,Address address) {
 		this.fname = fname;
 		this.lname = lname;
 		this.mobile = mobile;
+		this.email = email ;
 		this.password = password;
 		this.address = address;
 	
@@ -78,6 +91,20 @@ public class Customer
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
+	
+	
+	public String getEmail() {
+		return email;
+	}
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
 	public String getPassword() {
 		return password;
 	}
@@ -85,7 +112,7 @@ public class Customer
 		this.password = password;
 	}
 	
-	@OneToOne(fetch = FetchType.LAZY,cascade =CascadeType.ALL,mappedBy="cid")
+	@OneToOne(cascade =CascadeType.ALL,mappedBy="cid")
 	public Address getAddress() {
 		return address;
 	}
@@ -93,7 +120,8 @@ public class Customer
 		this.address = address;
 	}
 	
-	@OneToMany(mappedBy = "customer")
+	@JsonIgnore
+	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
 	public Set<CustomerProvider> getCustProvider() {
 		return custProvider;
 	}
@@ -102,12 +130,17 @@ public class Customer
 		this.custProvider = custProvider;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", fname=" + fname + ", lname=" + lname + ", mobile=" + mobile + ", password="
-				+ password + "]";
+		return "Customer [id=" + id + ", fname=" + fname + ", lname=" + lname + ", mobile=" + mobile + ", email="
+				+ email + ", password=" + password + ", address=" + address + "]";
 	}
 
+
+
+	
 	
 	
 }

@@ -8,4 +8,6 @@ import com.app.demo.pojos.SubServices;
 @Repository
 public interface SubServiceRepository extends JpaRepository<SubServices,Integer> {
 
+	SubServices findBySubservicename(String subService);
+
 }

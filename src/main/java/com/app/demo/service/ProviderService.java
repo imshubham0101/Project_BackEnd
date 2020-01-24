@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.demo.pojos.Address;
-import com.app.demo.pojos.Customer;
 import com.app.demo.pojos.Provider;
 import com.app.demo.pojos.Services;
+import com.app.demo.pojos.SubServices;
 import com.app.demo.repository.ProviderRepository;
 import com.app.demo.repository.ServiceRepository;
+import com.app.demo.repository.SubServiceRepository;
 
 @Service
 public class ProviderService {
@@ -25,6 +26,9 @@ public class ProviderService {
 	
 	@Autowired
 	private ProviderRepository providerRepo;
+	
+	@Autowired
+	private SubServiceRepository subServiceRepo ;
 	
 	
 	public Provider login(String mobile, String password) {
@@ -51,6 +55,24 @@ public class ProviderService {
 		List<Provider> providers = new ArrayList<>();
 		providerRepo.findAll().forEach(providers::add);
 		return providers;
+	}
+
+
+	public List<Provider> getProvidersOfService(String subService) {
+		Services service = subServiceRepo.findBySubservicename(subService).getServices();
+		//System.out.println(subServices.getSubservicename());
+		//Services service = subServices.getServices();
+		System.out.println(service.getSname());
+		List<Provider> providers = new ArrayList<>();
+		providerRepo.findAllByPservice(service).forEach(providers::add);
+		return providers;
+		
+	}
+
+
+	public Provider getPro(Integer id) {
+		// TODO Auto-generated method stub
+		return providerRepo.getOne(id);
 	}
 
 
